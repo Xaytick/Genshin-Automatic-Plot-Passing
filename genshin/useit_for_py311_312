@@ -1,0 +1,36 @@
+import pyautogui
+import time
+
+import ctypes, sys
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+
+
+
+if __name__ == '__main__':
+    if is_admin():
+        # Code of your program here
+        pos1 = None
+        pos2 = None
+        while True:
+            try:
+                pos1 = pyautogui.locateOnScreen('E:\code\python\genshin\image1.png')
+                print('playing button found')
+                pyautogui.click()
+            except pyautogui.ImageNotFoundException:
+                print('playing button not found')
+                try:
+                    pos2 = pyautogui.locateOnScreen('E:\code\python\genshin\image3.png')
+                    pyautogui.click(pos2)
+                    print('dialog found')
+                except pyautogui.ImageNotFoundException:
+                    print('dialog not found')            
+            time.sleep(0.5)
+    else:
+        # Re-run the program with admin rights
+        ctypes.windll.shell32.ShellExecuteW(None,"runas", sys.executable, __file__, None, 1)
